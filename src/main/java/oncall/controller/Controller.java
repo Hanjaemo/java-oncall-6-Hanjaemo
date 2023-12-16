@@ -1,30 +1,26 @@
 package oncall.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import oncall.domain.DayOfWeek;
 import oncall.domain.Employee;
 import oncall.domain.Employees;
+import oncall.domain.Month;
 import oncall.domain.MonthAndDayOfWeek;
 import oncall.domain.Result;
+import oncall.exception.ExceptionHandler;
 import oncall.view.InputView;
 import oncall.view.OutputView;
 
 public class Controller {
 
     public void run() {
-        List<String> inputMonthAndDayOfWeek = InputView.readMonthAndDayOfWeek();
-        MonthAndDayOfWeek monthAndDayOfWeek = new MonthAndDayOfWeek(
-                Integer.parseInt(inputMonthAndDayOfWeek.get(0)),
-                inputMonthAndDayOfWeek.get(1));
+        MonthAndDayOfWeek monthAndDayOfWeek = ExceptionHandler.handleSupplier(
+                () -> createMonthAndDayOfWeek(InputView.readMonthAndDayOfWeek()));
+        
+        Employees weekdayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("평일"));
 
-        Employees weekdayEmployees = new Employees(InputView.readEmployees("평일").stream()
-                .map(Employee::new)
-                .collect(Collectors.toList()));
-
-        Employees holidayEmployees = new Employees(InputView.readEmployees("휴일").stream()
-                .map(Employee::new)
-                .collect(Collectors.toList()));
+        Employees holidayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("휴일"));
 
         Result result = new Result();
         for (int day = 1; day <= monthAndDayOfWeek.getLastDay(); day++) {
@@ -40,5 +36,17 @@ public class Controller {
             monthAndDayOfWeek.shiftDayOfWeek();
         }
         OutputView.printResult(monthAndDayOfWeek, result);
+    }
+
+    private MonthAndDayOfWeek createMonthAndDayOfWeek(List<String> inputMonthAndDayOfWeek) {
+        return new MonthAndDayOfWeek(
+                Month.of(Integer.parseInt(inputMonthAndDayOfWeek.get(0))),
+                DayOfWeek.of(inputMonthAndDayOfWeek.get(1)));
+    }
+
+    private Employees createEmployees(String weekdayOrHoliday) {
+        return new Employees(InputView.readEmployees(weekdayOrHoliday).stream()
+                .map(Employee::new)
+                .collect(Collectors.toList()));
     }
 }

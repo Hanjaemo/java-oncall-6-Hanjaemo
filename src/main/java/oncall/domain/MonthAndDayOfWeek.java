@@ -5,9 +5,9 @@ public class MonthAndDayOfWeek {
     private final Month month;
     private DayOfWeek dayOfWeek;
 
-    public MonthAndDayOfWeek(int month, String dayOfWeek) {
-        this.month = Month.of(month);
-        this.dayOfWeek = DayOfWeek.of(dayOfWeek);
+    public MonthAndDayOfWeek(Month month, DayOfWeek dayOfWeek) {
+        this.month = month;
+        this.dayOfWeek = dayOfWeek;
     }
 
     public boolean isHoliday(int day) {

@@ -2,6 +2,7 @@ package oncall.domain;
 
 import java.util.Arrays;
 import java.util.List;
+import oncall.exception.ErrorMessage;
 
 public enum Month {
 
@@ -32,7 +33,7 @@ public enum Month {
         return Arrays.stream(Month.values())
                 .filter(month -> month.month == input)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다.")); // TODO 예외처리
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_FOUNT_MONTH.getMessage()));
     }
 
     public boolean isHoliday(int day) {

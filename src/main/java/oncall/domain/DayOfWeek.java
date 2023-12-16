@@ -1,6 +1,7 @@
 package oncall.domain;
 
 import java.util.Arrays;
+import oncall.exception.ErrorMessage;
 
 public enum DayOfWeek {
 
@@ -24,14 +25,14 @@ public enum DayOfWeek {
         return Arrays.stream(DayOfWeek.values())
                 .filter(dayOfWeek -> dayOfWeek.name.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다.")); // TODO 예외처리
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_FOUNT_DAY_OF_WEEK.getMessage()));
     }
 
     public static DayOfWeek of(int ordinal) {
         return Arrays.stream(DayOfWeek.values())
                 .filter(dayOfWeek -> dayOfWeek.ordinal == ordinal)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다.")); // TODO 예외처리
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_FOUNT_DAY_OF_WEEK.getMessage()));
     }
 
     public boolean isHoliday() {

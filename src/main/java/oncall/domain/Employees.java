@@ -4,19 +4,25 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 import java.util.Set;
+import oncall.exception.ErrorMessage;
 
 public class Employees {
 
+    private static final int MIN_EMPLOYEES_SIZE = 5;
+    private static final int MAX_EMPLOYEES_SIZE = 35;
+
     private final List<Employee> employees;
+    private final Deque<Employee> waitingEmployees = new ArrayDeque<>();
     private int turnNumber;
-    private Deque<Employee> waitingEmployees = new ArrayDeque<>();
 
     public Employees(List<Employee> employees) {
-        if (employees.size() < 5 || employees.size() > 35) {
-            throw new IllegalArgumentException("직원은 5명 이상 35명 이하로 입력해주세요."); // TODO 예외처리
+        if (employees.size() < MIN_EMPLOYEES_SIZE || employees.size() > MAX_EMPLOYEES_SIZE) {
+            throw new IllegalArgumentException(
+                    String.format(ErrorMessage.INVALID_EMPLOYEES_BY_SIZE.getMessage(),
+                            MIN_EMPLOYEES_SIZE, MAX_EMPLOYEES_SIZE));
         }
         if (Set.copyOf(employees).size() != employees.size()) {
-            throw new IllegalArgumentException("직원 이름은 중복되지 않게 입력해주세요."); // TODO 예외처리
+            throw new IllegalArgumentException(ErrorMessage.INVALID_EMPLOYEES_BY_DUPLICATED.getMessage());
         }
         this.employees = employees;
         this.turnNumber = 0;

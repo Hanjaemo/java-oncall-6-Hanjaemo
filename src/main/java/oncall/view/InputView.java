@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import oncall.exception.ErrorMessage;
 
 public class InputView {
 
@@ -18,7 +19,7 @@ public class InputView {
         System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
         String input = Console.readLine();
         if (!MONTH_AND_DAY_OF_WEEK_PATTERN.matcher(input).matches()) {
-            throw new IllegalArgumentException("잘못된 입력입니다."); // TODO 예외처리
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_PATTERN.getMessage());
         }
         return Arrays.stream(input.split(","))
                 .map(String::strip)
@@ -33,7 +34,7 @@ public class InputView {
         System.out.print(format);
         String input = Console.readLine();
         if (!EMPLOYEES_PATTERN.matcher(input).matches()) {
-            throw new IllegalArgumentException("잘못된 입력입니다."); // TODO 예외처리
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_PATTERN.getMessage());
         }
         return Arrays.stream(input.split(","))
                 .map(String::strip)

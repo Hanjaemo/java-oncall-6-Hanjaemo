@@ -1,14 +1,20 @@
 package oncall.domain;
 
 import java.util.Objects;
+import oncall.exception.ErrorMessage;
 
 public class Employee {
+
+    private static final int MIN_NAME_LENGTH = 1;
+    private static final int MAX_NAME_LENGTH = 5;
 
     private final String name;
 
     public Employee(String name) {
-        if (name.length() < 1 || name.length() > 5) {
-            throw new IllegalArgumentException("이름은 1글자 이상 5글자 이하로 입력해주세요."); // TODO 예외처리
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException(
+                    String.format(ErrorMessage.INVALID_EMPLOYEE_BY_NAME_LENGTH.getMessage(),
+                            MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
         this.name = name;
     }

@@ -22,4 +22,8 @@ public class OutputView {
                     employees.get(day - 1).getName());
         }
     }
+
+    public static void printErrorMessage(IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+    }
 }
