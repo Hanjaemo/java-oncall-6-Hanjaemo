@@ -2,6 +2,7 @@ package oncall.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import oncall.Constants;
 import oncall.domain.DayOfWeek;
 import oncall.domain.Employee;
 import oncall.domain.EmployeeAssigner;
@@ -19,8 +20,8 @@ public class Controller {
         MonthAndDayOfWeek monthAndDayOfWeek = ExceptionHandler.handleSupplier(
                 () -> createMonthAndDayOfWeek(InputView.readMonthAndDayOfWeek()));
         
-        Employees weekdayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("평일"));
-        Employees holidayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("휴일"));
+        Employees weekdayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees(Constants.WEEKDAY));
+        Employees holidayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees(Constants.HOLIDAY));
 
         EmployeeAssigner employeeAssigner = new EmployeeAssigner(weekdayEmployees, holidayEmployees);
         Result result = employeeAssigner.assignWorkers(monthAndDayOfWeek);
