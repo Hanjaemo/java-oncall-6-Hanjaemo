@@ -3,9 +3,9 @@ package oncall.domain;
 import java.util.List;
 import java.util.Set;
 
-public abstract class Employees {
+public class Employees {
 
-    protected List<Employee> employees;
+    private final List<Employee> employees;
 
     public Employees(List<Employee> employees) {
         if (employees.size() < 5 || employees.size() > 35) {
