@@ -13,17 +13,17 @@ public class EmployeeAssigner {
     public Result assignWorkers(MonthAndDayOfWeek monthAndDayOfWeek) {
         Result result = new Result();
         for (int day = 1; day <= monthAndDayOfWeek.getLastDay(); day++) {
-            Employee nextEmployee;
             if (monthAndDayOfWeek.isHoliday(day)) {
-                nextEmployee = holidayEmployees.findNextEmployee();
-                result.addEmployee(nextEmployee, monthAndDayOfWeek.getDayOfWeek(), holidayEmployees);
-                monthAndDayOfWeek.shiftDayOfWeek();
+                addEmployeeToResult(monthAndDayOfWeek, holidayEmployees, result);
                 continue;
             }
-            nextEmployee = weekdayEmployees.findNextEmployee();
-            result.addEmployee(nextEmployee, monthAndDayOfWeek.getDayOfWeek(), weekdayEmployees);
-            monthAndDayOfWeek.shiftDayOfWeek();
+            addEmployeeToResult(monthAndDayOfWeek, weekdayEmployees, result);
         }
         return result;
+    }
+
+    private void addEmployeeToResult(MonthAndDayOfWeek monthAndDayOfWeek, Employees employees, Result result) {
+        result.addEmployee(employees.findNextEmployee(), monthAndDayOfWeek.getDayOfWeek(), employees);
+        monthAndDayOfWeek.shiftDayOfWeek();
     }
 }
