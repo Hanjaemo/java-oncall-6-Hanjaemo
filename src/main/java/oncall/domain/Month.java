@@ -34,4 +34,16 @@ public enum Month {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다.")); // TODO 예외처리
     }
+
+    public boolean isHoliday(int day) {
+        return holidays.contains(day);
+    }
+
+    public int getLastDay() {
+        return lastDay;
+    }
+
+    public int getMonth() {
+        return month;
+    }
 }

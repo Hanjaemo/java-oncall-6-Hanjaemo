@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class InputView {
 
-    private static final Pattern MONTH_AND_DAY_OF_WEEK_PATTERN = Pattern.compile("^([0-9]+)(?:, ([가-힣]+))*$");
+    private static final Pattern MONTH_AND_DAY_OF_WEEK_PATTERN = Pattern.compile("^([0-9]+)(?:,([가-힣]+))*$");
     private static final Pattern EMPLOYEES_PATTERN = Pattern.compile("^([가-힣]+)(?:,([가-힣]+))*$");
 
     private InputView() {
