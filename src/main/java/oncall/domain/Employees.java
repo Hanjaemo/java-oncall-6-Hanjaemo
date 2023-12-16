@@ -16,16 +16,28 @@ public class Employees {
     private int turnNumber;
 
     public Employees(List<Employee> employees) {
+        validate(employees);
+        this.employees = employees;
+        this.turnNumber = 0;
+    }
+
+    private void validate(List<Employee> employees) {
+        throwExceptionByInvalidSize(employees);
+        throwExceptionByDuplicated(employees);
+    }
+
+    private void throwExceptionByInvalidSize(List<Employee> employees) {
         if (employees.size() < MIN_EMPLOYEES_SIZE || employees.size() > MAX_EMPLOYEES_SIZE) {
             throw new IllegalArgumentException(
                     String.format(ErrorMessage.INVALID_EMPLOYEES_BY_SIZE.getMessage(),
                             MIN_EMPLOYEES_SIZE, MAX_EMPLOYEES_SIZE));
         }
+    }
+
+    private void throwExceptionByDuplicated(List<Employee> employees) {
         if (Set.copyOf(employees).size() != employees.size()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_EMPLOYEES_BY_DUPLICATED.getMessage());
         }
-        this.employees = employees;
-        this.turnNumber = 0;
     }
 
     public Employee findNextEmployee() {
