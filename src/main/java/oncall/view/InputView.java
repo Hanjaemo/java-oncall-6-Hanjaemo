@@ -25,8 +25,12 @@ public class InputView {
                 .collect(Collectors.toList());
     }
 
-    public static List<String> readEmployees() {
-        System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+    public static List<String> readEmployees(String weekdayOrHoliday) {
+        String format = "평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
+        if (weekdayOrHoliday.equals("휴일")) {
+            format = "휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
+        }
+        System.out.print(format);
         String input = Console.readLine();
         if (!EMPLOYEES_PATTERN.matcher(input).matches()) {
             throw new IllegalArgumentException("잘못된 입력입니다."); // TODO 예외처리
