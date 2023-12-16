@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import oncall.domain.DayOfWeek;
 import oncall.domain.Employee;
+import oncall.domain.EmployeeAssigner;
 import oncall.domain.Employees;
 import oncall.domain.Month;
 import oncall.domain.MonthAndDayOfWeek;
@@ -19,22 +20,10 @@ public class Controller {
                 () -> createMonthAndDayOfWeek(InputView.readMonthAndDayOfWeek()));
         
         Employees weekdayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("평일"));
-
         Employees holidayEmployees = ExceptionHandler.handleSupplier(() -> createEmployees("휴일"));
 
-        Result result = new Result();
-        for (int day = 1; day <= monthAndDayOfWeek.getLastDay(); day++) {
-            Employee nextEmployee;
-            if (monthAndDayOfWeek.isHoliday(day)) {
-                nextEmployee = holidayEmployees.findNextEmployee();
-                result.addEmployee(nextEmployee, monthAndDayOfWeek.getDayOfWeek(), holidayEmployees);
-                monthAndDayOfWeek.shiftDayOfWeek();
-                continue;
-            }
-            nextEmployee = weekdayEmployees.findNextEmployee();
-            result.addEmployee(nextEmployee, monthAndDayOfWeek.getDayOfWeek(), weekdayEmployees);
-            monthAndDayOfWeek.shiftDayOfWeek();
-        }
+        EmployeeAssigner employeeAssigner = new EmployeeAssigner(weekdayEmployees, holidayEmployees);
+        Result result = employeeAssigner.assignWorkers(monthAndDayOfWeek);
         OutputView.printResult(monthAndDayOfWeek, result);
     }
 
