@@ -10,15 +10,17 @@ public class Result {
 
     public void addEmployee(Employee employee, DayOfWeek dayOfWeek, Employees dayEmployees) {
         if (employees.isEmpty()) {
-            employees.add(employee);
-            dayOfWeeks.add(dayOfWeek);
+            addEmployeeAndDayOfWeek(employee, dayOfWeek);
             return;
         }
         if (employees.get(employees.size() - 1).equals(employee)) {
-            employees.add(dayEmployees.findTempEmployee(employee));
-            dayOfWeeks.add(dayOfWeek);
+            addEmployeeAndDayOfWeek(dayEmployees.findNextEmployee(), dayOfWeek);
             return;
         }
+        addEmployeeAndDayOfWeek(employee, dayOfWeek);
+    }
+
+    private void addEmployeeAndDayOfWeek(Employee employee, DayOfWeek dayOfWeek) {
         employees.add(employee);
         dayOfWeeks.add(dayOfWeek);
     }
