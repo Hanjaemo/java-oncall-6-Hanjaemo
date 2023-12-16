@@ -18,9 +18,7 @@ public class InputView {
     public static List<String> readMonthAndDayOfWeek() {
         System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
         String input = Console.readLine();
-        if (!MONTH_AND_DAY_OF_WEEK_PATTERN.matcher(input).matches()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_PATTERN.getMessage());
-        }
+        validatePattern(MONTH_AND_DAY_OF_WEEK_PATTERN, input);
         return Arrays.stream(input.split(","))
                 .map(String::strip)
                 .collect(Collectors.toList());
@@ -33,11 +31,15 @@ public class InputView {
         }
         System.out.print(format);
         String input = Console.readLine();
-        if (!EMPLOYEES_PATTERN.matcher(input).matches()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_PATTERN.getMessage());
-        }
+        validatePattern(EMPLOYEES_PATTERN, input);
         return Arrays.stream(input.split(","))
                 .map(String::strip)
                 .collect(Collectors.toList());
+    }
+
+    private static void validatePattern(Pattern pattern, String input) {
+        if (!pattern.matcher(input).matches()) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_PATTERN.getMessage());
+        }
     }
 }
